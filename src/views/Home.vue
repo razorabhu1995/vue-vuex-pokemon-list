@@ -6,8 +6,12 @@
                 size="is-small">
             </b-icon>
     <div class="body-content">
-        <div class="margin-bottom-10-px padding-10-px">
+        <div class="margin-bottom-10-px padding-10-px" style="display: table-caption;">
+           <figure class="image is-96x96" >
+            <img src="./../assets/pokeball.png" alt="image">
+           </figure>
             <h1 class="is-size-3 is-size-4-mobile has-text-weight-bold">Pokemons</h1>
+            <p class="has-text-weight-bold is-italic has-text-grey-darker">Gotta Catch 'em  All</p>
         </div>
        <div class="columns is-multiline is-mobile is-variable is-2">
          <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop" v-for="(pokemon,index) in pokemons" :key="index">
