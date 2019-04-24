@@ -1,7 +1,7 @@
 <template>
           <div>
             <header class="modal-card-head">
-               <p class="modal-card-title">{{pokemonDetail.name}}</p>
+               <p class="modal-card-title has-text-weight-bold">{{pokemonDetail.name}}</p>
             </header>
                <div class="card">
                   <div class="card-content">
@@ -41,7 +41,7 @@
                            </div>
                      </div>
                      <hr>
-                     <h5 style="margin-bottom:10px;">Abilities : </h5>
+                     <h5 class="has-text-weight-bold" style="margin-bottom:10px;">Abilities : </h5>
                      <div class="columns is-multiline is-variable is-2">
                         <div class="column is-half" v-for="(ability,index) in pokemonDetail.abilities" :key="index">
                            <div class="card" style="border-radius:3px;text-align:center;background-color: gainsboro;">
@@ -50,7 +50,7 @@
                         </div>
                      </div>
                      <hr>
-                     <h5 style="margin-bottom:10px;">Skills : </h5>
+                     <h5 class="has-text-weight-bold" style="margin-bottom:10px;">Skills : </h5>
                      <div class="columns is-multiline is-variable is-2">
                         <div class="column is-half" v-for="(move,index) in pokemonDetail.moves" :key="index">
                            <div class="card" style="border-radius:3px;text-align:center;">
