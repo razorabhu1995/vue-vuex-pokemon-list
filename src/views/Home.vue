@@ -1,10 +1,6 @@
 <template>
   <div>
     <Header></Header>
-    <b-icon
-                icon="account"
-                size="is-small">
-            </b-icon>
     <div class="body-content">
         <div class="margin-bottom-10-px padding-10-px" style="display: table-caption;">
            <figure class="image is-96x96" >
