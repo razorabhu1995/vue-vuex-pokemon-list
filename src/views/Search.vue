@@ -10,8 +10,8 @@
                   <div class="field">
                         <div class="control">
                            <input class="input is-medium" v-model="name" type="text" placeholder="Search according to name..." @keydown.enter="searchByName">
-                           <button class="clear button is-primary is-small" v-if="name" @click="cancelSelection">
-                           X
+                           <button class="clear button is-text is-small" v-if="name" @click="cancelSelection">
+                           Cancel
                            </button>
                         </div>
                   </div>
@@ -57,13 +57,13 @@
 
             <b-tab-item label="Gender">
                <b-field>
-                     <b-radio-button  v-model="radioButton"  native-value="1" @click.native="getGenderPokemons(2)">
+                     <b-radio-button  v-model="genderSelection"  native-value="1" @click.native="getGenderPokemons(2)">
                         <span>Male</span>
                      </b-radio-button>
-                     <b-radio-button   v-model="radioButton" native-value="2" @click.native="getGenderPokemons(1)">
+                     <b-radio-button   v-model="genderSelection" native-value="2" @click.native="getGenderPokemons(1)">
                         <span>Female</span>
                      </b-radio-button>
-                     <b-radio-button   v-model="radioButton" native-value="3" @click.native="getGenderPokemons(3)">
+                     <b-radio-button   v-model="genderSelection" native-value="3" @click.native="getGenderPokemons(3)">
                         <span>Genderless</span>
                      </b-radio-button>
                </b-field>
@@ -149,7 +149,7 @@ export default {
         pokemons: [],
         name : "",
         genderedPokemons : [],
-        radioButton : '',
+        genderSelection : '',
         selectedRegion : "",
         regionalPokemons : [],
         searchedPokemons : [],
