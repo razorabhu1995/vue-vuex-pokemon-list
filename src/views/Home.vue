@@ -69,6 +69,8 @@ export default {
                   this.pokemonDetail = response.data;
                   this.isLoading = false;
                   this.isPokemonDetailModalActive = true;
+               }).catch(errors => {
+                  console.log(errors);
                });
         
      },
@@ -89,11 +91,15 @@ export default {
                      image : response.data.sprites.front_default
                   }
                   pokemons.push(pokemon);
+               }).catch(errors => {
+                  console.log(errors);
                });
             });
             this.pokemons = pokemons;
             this.$store.commit("getPokemons", pokemons);
-         })
+         }).catch(errors => {
+            console.log(errors);
+          });
     }
   },
   components: {

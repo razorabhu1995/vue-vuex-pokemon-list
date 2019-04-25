@@ -94,6 +94,8 @@
                <div v-else>
                  <p style="text-align: center; color: dimgrey;"> Click on Gender buttons to display pokemons based on their Gender! :) </p>
                </div>
+               <b-loading :is-full-page="true" :active.sync="loadingGenderedPokemons" :can-cancel="true"></b-loading>
+
             </b-tab-item>
             
 
@@ -165,6 +167,7 @@ export default {
         regionalPokemons : [],
         searchedPokemons : [],
         loadingRegionalPokemons : false,
+        loadingGenderedPokemons : false,
         isLoading : false,
         isPokemonDetailModalActive : false,
         pokemonDetail : {}
@@ -180,6 +183,8 @@ export default {
                   this.pokemonDetail = response.data;
                   this.isLoading = false;
                   this.isPokemonDetailModalActive = true;
+               }).catch(errors => {
+                  console.log(errors);
                });
      },
     searchByName: function() {
@@ -210,19 +215,27 @@ export default {
                      image : response.data.sprites.front_default
                   }
                   pokemons.push(pokemon);
+               }).catch(errors => {
+                  console.log(errors);
                });
             });
             this.pokemons = pokemons;
             this.$store.commit("getPokemons", pokemons);
+         }).catch(errors => {
+            console.log(errors);
          })
     },
     getGenderPokemons : function(value){
        /** GET POKEMONS BASED ON GENDER WITH API CALL */
+       this.loadingGenderedPokemons = true;
        var pokemons = [];
         this.$http.get('gender/' + value + '?limit=684')
          .then(response =>{
             console.log("here", response.data);
             this.genderedPokemons = response.data.pokemon_species_details;
+            this.loadingGenderedPokemons = false;
+         }).catch(errors => {
+            console.log(errors);
          })
     },
     getRegionalPokemons : function(){
@@ -233,6 +246,8 @@ export default {
             console.log("here", response.data);
             this.regionalPokemons = response.data.pokemon_entries;
             this.loadingRegionalPokemons = false;
+         }).catch(errors => {
+            console.log(errors);
          })
     }
   },
