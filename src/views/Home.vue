@@ -8,7 +8,9 @@
            </figure>
             <h1 class="is-size-3 is-size-4-mobile has-text-weight-bold">Pokemons</h1>
             <p class="has-text-weight-bold is-italic has-text-grey-darker">Gotta Catch 'em  All</p>
-        </div>
+       </div>
+
+         <!-- LIST OF POKEMONS -->
        <div class="columns is-multiline is-mobile is-variable is-2">
          <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop" v-for="(pokemon,index) in pokemons" :key="index">
             <div class="no-border pointer" @click="openPokemonDetailModal(pokemon.name)">
@@ -28,8 +30,13 @@
            
          </div>
       </div>
+
+      <!-- LOADING CASE WHILE OPENING MODAL FOR POKEMON DETAILS -->
       <b-loading :is-full-page="true" :active.sync="isLoading" :can-cancel="true"></b-loading>
+
+      <!-- MODAL TO SHOW THE POKEMON DETAILS -->
       <b-modal :active.sync="isPokemonDetailModalActive" :width="450" scroll="keep">
+            <!-- MODAL COMPONENT IMPORTED-->
             <PokemonDetail :pokemonDetail="pokemonDetail"></PokemonDetail>          
       </b-modal>
     </div>
@@ -55,6 +62,7 @@ export default {
   methods: {
      openPokemonDetailModal : function(pokemonName){
         this.isLoading = true;
+        /** GET DETAILS OF POKEMON AND SHOW IT IN MODAL */
         this.$http.get('pokemon/' + pokemonName)
                .then(response => {
                   console.log(response.data);
@@ -66,6 +74,11 @@ export default {
      },
     getPokemons : function(){
        var pokemons = [];
+
+       /** GET ALL THE POKEMONS AND CALL EACH POKEMON API
+        *   TO GET IMAGES 
+        *   STORES ALL POKEMONS IN STORE SO THAT IT CAN BE USED GLOBALLY
+        */
        this.$http.get('pokemon?limit=964')
          .then(response =>{
             response.data.results.forEach(item => {
@@ -80,7 +93,6 @@ export default {
             });
             this.pokemons = pokemons;
             this.$store.commit("getPokemons", pokemons);
-
          })
     }
   },
@@ -89,6 +101,9 @@ export default {
     PokemonDetail
   },
   mounted(){
+     /** CHECK STORE FOR ALL POKEMONS IF AVAILABLE ASSIGN IT TO pokemons VARIABLE
+      * OTHERWISE MAKE CALL TO getpokemon METHOD
+      */
      if(this.$store.state.pokemons){
         this.pokemons = this.$store.state.pokemons;
      }else{

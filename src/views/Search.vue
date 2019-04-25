@@ -5,7 +5,10 @@
         <div class="margin-bottom-10-px padding-10-px">
             <h1 class="is-size-3 is-size-4-mobile has-text-weight-bold">Search for Pokemons</h1>
         </div>
+        <!-- TABS FOR SEARCHING ACCRODING TO DIFFERENT CATOGORIES -->
          <b-tabs position="is-centered" class="block">
+
+            <!-- TAB TO SEARCH BASED ON NAME OF POKEMON -->
             <b-tab-item label="Name">
                   <div class="field">
                         <div class="control">
@@ -55,6 +58,8 @@
                   </div>
             </b-tab-item>
 
+            <!-- TAB TO SEARCH BASED ON GENDER -->
+            <!-- IMAGES ARE NOT SHOWING BECAUSE THE CALL TO API DOESN'T RETURN IMAGE AND TO GET IMAGE YOU NEED TO PERFORM MULTIPLE CALLS WHICH TAKES LONG TIME -->
             <b-tab-item label="Gender">
                <b-field>
                      <b-radio-button  v-model="genderSelection"  native-value="1" @click.native="getGenderPokemons(2)">
@@ -91,6 +96,10 @@
                </div>
             </b-tab-item>
             
+
+            <!-- TAB TO SEARCH BASED ON GENDER -->
+            <!-- IMAGES ARE NOT SHOWING BECAUSE THE CALL TO API DOESN'T RETURN IMAGE AND TO GET IMAGE YOU NEED TO PERFORM MULTIPLE CALLS WHICH TAKES LONG TIME -->
+
             <b-tab-item label="Region">
                  <b-field label="Select" >
                         <b-select placeholder="Select a region" v-model="selectedRegion" @input="getRegionalPokemons"  size="is-medium" :loading="loadingRegionalPokemons">
@@ -127,8 +136,10 @@
             </b-tab-item>
         </b-tabs>
      
+      <!-- MODAL TO SHOW THE POKEMON DETAILS -->  
          <b-loading :is-full-page="true" :active.sync="isLoading" :can-cancel="true"></b-loading>
          <b-modal :active.sync="isPokemonDetailModalActive" :width="450" scroll="keep">
+               <!-- MODAL COMPONENT IMPORTED -->
                <PokemonDetail :pokemonDetail="pokemonDetail"></PokemonDetail>          
          </b-modal>
 
@@ -162,6 +173,7 @@ export default {
   methods: {
     openPokemonDetailModal : function(pokemonName){
         this.isLoading = true;
+        /** GET DETAILS OF POKEMON AND SHOW IT IN MODAL */
         this.$http.get('pokemon/' + pokemonName)
                .then(response => {
                   console.log(response.data);
@@ -171,16 +183,22 @@ export default {
                });
      },
     searchByName: function() {
+       /** FILTERS POKEMON NAME AND PROVIDES RESULT IN SEARCH BY NAME TAB */
       var pokemons = this.pokemons.filter(pokemon => {
          return pokemon.name == this.name
       })
       this.searchedPokemons = pokemons;
     },
     cancelSelection : function(){
+      //  REMOVES THE SEARCHED INDEX WITH ALL POKEMONS
        this.name = "";
        this.searchedPokemons = [];
     },
     getPokemons : function(){
+        /** GET ALL THE POKEMONS AND CALL EACH POKEMON API
+        *   TO GET IMAGES 
+        *   STORES ALL POKEMONS IN STORE SO THAT IT CAN BE USED GLOBALLY
+        */
        var pokemons = [];
        this.$http.get('pokemon?limit=964')
          .then(response =>{
@@ -199,6 +217,7 @@ export default {
          })
     },
     getGenderPokemons : function(value){
+       /** GET POKEMONS BASED ON GENDER WITH API CALL */
        var pokemons = [];
         this.$http.get('gender/' + value + '?limit=684')
          .then(response =>{
@@ -207,6 +226,7 @@ export default {
          })
     },
     getRegionalPokemons : function(){
+       /** GET POKEMONS BASED ON REGIONS WITH API CALL */
        this.loadingRegionalPokemons =true
         this.$http.get('pokedex/' + this.selectedRegion)
          .then(response =>{
@@ -221,6 +241,9 @@ export default {
     PokemonDetail
   },
   mounted(){
+       /** CHECK STORE FOR ALL POKEMONS IF AVAILABLE ASSIGN IT TO pokemons VARIABLE
+      * OTHERWISE MAKE CALL TO getpokemon METHOD
+      */
      if(this.$store.state.pokemons){
         this.pokemons = this.$store.state.pokemons;
      }else{
